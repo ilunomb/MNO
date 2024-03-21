@@ -10,13 +10,13 @@ def fa(x):
 # Puntos de colocación equiespaciados // orden del polinomio
 quantity_of_interpolation_points = 10
 
+# Puntos de colocación Chebyshev // orden del polinomio
+quantity_of_interpolation_points_chebyshev = 10
+
 x_values_for_interpolation = np.linspace(-4, 4, quantity_of_interpolation_points)
 
 # puntos a graficar de las funciones
 points_to_graph = np.linspace(-4, 4, 1000)
-
-# Puntos de colocación Chebyshev // orden del polinomio
-quantity_of_interpolation_points_chebyshev = 10
 
 # Generar nodos de Chebyshev en el intervalo [-4, 4]
 cheb_nodes = np.polynomial.chebyshev.chebpts1(quantity_of_interpolation_points_chebyshev)
