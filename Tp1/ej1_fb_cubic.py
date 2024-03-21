@@ -60,7 +60,7 @@ ax.set_ylabel('$y$')
 ax.set_zlabel('$f_b(x, y)$')
 ax.set_title('Interpolación de $f_b(x, y)$ con interp2d (Equiespaciado)')
 
-#grafcos de error absoluto
+#graph absolut error
 ax = fig.add_subplot(2, 2, 3)
 c = ax.imshow(np.abs(fb(x_points_to_graph, y_points_to_graph) - fb_Cheb_interp), cmap=plt.cm.cividis)
 fig.colorbar(c, ax=ax)
