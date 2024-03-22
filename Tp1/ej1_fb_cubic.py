@@ -42,7 +42,7 @@ fb_Cheb_interp = griddata((x_values_for_interpolation_chebyshev.flatten(), y_val
 # Gráficos de las funciones originales y las interpoladas
 fig = plt.figure(figsize=(12, 6))
 
-ax = fig.add_subplot(2, 2, 1, projection='3d')
+ax = fig.add_subplot(projection='3d')
 ax.scatter(x_values_for_interpolation_chebyshev, y_values_for_interpolation_chebyshev_b2, fb_Cheb_values, label="Puntos de interpolación Chebyshev", color='g')
 ax.plot_surface(x_points_to_graph, y_points_to_graph, fb(x_points_to_graph, y_points_to_graph), cmap=plt.cm.viridis, alpha=0.9)
 ax.plot_wireframe(x_points_to_graph, y_points_to_graph, fb_Cheb_interp, cmap=plt.cm.viridis, alpha=0.2)
@@ -51,7 +51,11 @@ ax.set_ylabel('$y$')
 ax.set_zlabel('$f_b(x, y)$')
 ax.set_title('Interpolación de $f_b(x, y)$ con interp2d (Chebyshev)')
 
-ax = fig.add_subplot(2, 2, 2, projection='3d')
+plt.tight_layout()
+plt.show()
+
+fig = plt.figure(figsize=(12, 6))
+ax = fig.add_subplot(projection='3d')
 ax.scatter(x_values_for_interpolation.flatten(), y_values_for_interpolation.flatten(), fb_values.flatten(), label="Puntos de interpolación equiespaciados", color='g')
 ax.plot_surface(x_points_to_graph, y_points_to_graph, fb(x_points_to_graph, y_points_to_graph), cmap=plt.cm.viridis, alpha=0.9)
 ax.plot_wireframe(x_points_to_graph, y_points_to_graph, fb_interp, cmap=plt.cm.viridis, alpha=0.2)
@@ -60,20 +64,43 @@ ax.set_ylabel('$y$')
 ax.set_zlabel('$f_b(x, y)$')
 ax.set_title('Interpolación de $f_b(x, y)$ con interp2d (Equiespaciado)')
 
-#graph absolut error
-ax = fig.add_subplot(2, 2, 3)
-c = ax.imshow(np.abs(fb(x_points_to_graph, y_points_to_graph) - fb_Cheb_interp), cmap=plt.cm.cividis)
-fig.colorbar(c, ax=ax)
-ax.set_xlabel('$x$')
-ax.set_ylabel('$y$')
-ax.set_title('Error absoluto de la interpolación Chebyshev')
+plt.tight_layout()
+plt.show()
 
-ax = fig.add_subplot(2, 2, 4)
-c = ax.imshow(np.abs(fb(x_points_to_graph, y_points_to_graph) - fb_interp), cmap=plt.cm.cividis)
-fig.colorbar(c, ax=ax)
-ax.set_xlabel('$x$')
-ax.set_ylabel('$y$')
-ax.set_title('Error absoluto de la interpolación equiespaciada')
+#graph absolut error
+
+# plt.figure(figsize=(12, 6))
+# c = fig.imshow(np.abs(fb(x_points_to_graph, y_points_to_graph) - fb_Cheb_interp), cmap=plt.cm.cividis)
+# plt.colorbar(c, ax=ax)
+# ax.set_xlabel('$x$')
+# ax.set_ylabel('$y$')
+# ax.set_title('Error absoluto de la interpolación Chebyshev')
+
+# plt.tight_layout()
+# plt.show()
+
+# c = ax.imshow(np.abs(fb(x_points_to_graph, y_points_to_graph) - fb_interp), cmap=plt.cm.cividis)
+# fig.colorbar(c, ax=ax)
+# ax.set_xlabel('$x$')
+# ax.set_ylabel('$y$')
+# ax.set_title('Error absoluto de la interpolación equiespaciada')
+
+#grafico de error maximo en base a la cantidad de puntos de interpolacion (Equiespaciados)
+max_error = []
+for i in range(4, 100):
+    x_values_for_interpolation, y_values_for_interpolation = np.meshgrid(np.linspace(-1, 1, i), np.linspace(-1, 1, i))
+    fb_values = fb(x_values_for_interpolation, y_values_for_interpolation)
+    fb_interp = griddata((x_values_for_interpolation.flatten(), y_values_for_interpolation.flatten()), fb_values.flatten(), (x_points_to_graph, y_points_to_graph), method='cubic')
+    max_error.append(np.max(np.abs(fb(x_points_to_graph, y_points_to_graph) - fb_interp)))
+
+plt.figure(figsize=(12, 6))
+plt.plot(range(4, 100), max_error)
+plt.title('Error máximo en función de la cantidad de puntos de interpolación (Equiespaciados)')
+plt.xlabel('Cantidad de puntos de interpolación')
+plt.ylabel('Error máximo')
+plt.grid()
+
+
 
 plt.tight_layout()
 plt.show()
