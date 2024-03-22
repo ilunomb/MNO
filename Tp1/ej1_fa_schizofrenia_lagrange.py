@@ -53,6 +53,8 @@ fCheb_interp3 = lagrange(x_values_for_interpolation_chebyshev3, fCheb_values3)
 # Gráficos de las funciones originales y las interpoladas
 plt.figure(figsize=(12, 5))
 
+ax = plt.axes()
+
 plt.plot(points_to_graph, fa(points_to_graph), label='Datos originales', color='black')
 
 # plt.subplot(1, 2, 1)
@@ -69,9 +71,9 @@ plt.ylabel('$f_a(x)$')
 # plt.grid()
 
 # plt.subplot(2, 2, 2)
-plt.scatter(x_values_for_interpolation_chebyshev1, fCheb_values1, label="Puntos de interpolacion no equiespaciados", color='yellow')
-plt.scatter(x_values_for_interpolation_chebyshev2, fCheb_values2, label="Puntos de interpolacion no equiespaciados", color='purple')
-plt.scatter(x_values_for_interpolation_chebyshev3, fCheb_values3, label="Puntos de interpolacion no equiespaciados", color='orange')
+plt.scatter(x_values_for_interpolation_chebyshev1, fCheb_values1, label="Puntos de interpolacion no equiespaciados n = 10", color='yellow')
+plt.scatter(x_values_for_interpolation_chebyshev2, fCheb_values2, label="Puntos de interpolacion no equiespaciados n = 15", color='purple')
+plt.scatter(x_values_for_interpolation_chebyshev3, fCheb_values3, label="Puntos de interpolacion no equiespaciados n = 20", color='orange')
 # plt.plot(points_to_graph, fa(points_to_graph), label='Datos originales', color='r')
 plt.plot(points_to_graph, fCheb_interp1(points_to_graph), label='Interpolación n = 10',  linestyle='-.', color='yellow')
 plt.plot(points_to_graph, fCheb_interp2(points_to_graph), label='Interpolación n = 15',  linestyle='-.', color='purple')
@@ -83,7 +85,7 @@ plt.ylabel('$f_a(x)$')
 plt.ylim(0, 4)
 
 #make background gray
-
+ax.set_facecolor('lightgray')
 
 plt.legend()
 plt.grid()
