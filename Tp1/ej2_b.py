@@ -78,7 +78,7 @@ plt.figure(figsize=(10, 6))
 plt.plot(ground_truth_df["x1"], ground_truth_df["x2"], label='Ground Truth', color='b')
 plt.plot(interpolated_trajectory_v1_x1(points_to_graph), interpolated_trajectory_v1_x2(points_to_graph), label='Interpolation v1' ,linestyle='-.', color='r')
 plt.plot(interpolated_trajectory_v2_x1(points_to_graph_v2), interpolated_trajectory_v2_x2(points_to_graph_v2), label='Interpolation v2' ,linestyle='-.', color='g')
-plt.plot(m1_x1_intersect, m1_x2_intersect, 'ro', label="Intersección")
+plt.scatter(m1_x1_intersect, m1_x2_intersect, color='r', label="Intersección")
 
 # Configuración de la gráfica
 plt.xlabel("Coordenada x1")

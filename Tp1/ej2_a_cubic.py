@@ -34,5 +34,7 @@ plt.title('Trajectory Plot')
 plt.xlabel('X Position')
 plt.ylabel('Y Position')
 
+plt.grid()
+
 plt.legend()
 plt.show()
