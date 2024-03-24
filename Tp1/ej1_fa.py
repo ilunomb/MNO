@@ -60,29 +60,11 @@ plt.plot(points_to_graph, fa(points_to_graph), label='Datos originales', color='
 #plot cubic spline no equiespaciados
 plt.plot(points_to_graph, fCheb_interp_cubic(points_to_graph), label='Interpolación Cubic Spline',  linestyle='--')
 
-plt.title('Interpolación de $f_a(x)$ con Lagrange y Cubic Spline (Chebyshev)')
+plt.title('Interpolación de $f_a(x)$ con Cubic Spline (Chebyshev)')
 plt.xlabel('x')
 plt.ylabel('$f_a(x)$')
 plt.legend()
 plt.grid()
-
-# Gráficos de los errores de interpolación
-# plt.subplot(2, 2, 3)
-# plt.plot(points_to_graph, np.abs(fa(points_to_graph) - fa_interp_lagrange(points_to_graph)), label='Error equiespaciados', color='r')
-# plt.title('Error de interpolación de $f_a(x)$ con Lagrange')
-# plt.xlabel('x')
-# plt.ylabel('Error')
-# plt.legend()
-# plt.grid()
-
-
-# plt.subplot(2, 2, 4)
-# plt.plot(points_to_graph, np.abs(fa(points_to_graph) - fCheb_interp_lagrange(points_to_graph)), label='Error no equiespaciados', color='r')
-# plt.title('Error de interpolación de $f_a(x)$ con Lagrange (Chebyshev)')
-# plt.xlabel('x')
-# plt.ylabel('Error')
-# plt.legend()
-# plt.grid()
 
 plt.tight_layout()
 plt.show()
@@ -100,7 +82,7 @@ for i in range(2, 100):
 plt.plot(range(2, 100), max_error, label='Error maximo', color='r')
 plt.title('Error maximo de interpolación de $f_a(x)$ con CubicSpline en base a la cantidad de nodos (Chebyshev)')
 plt.xlabel('Cantidad de nodos')
-plt.ylabel('Error')
+plt.ylabel('Error maximo')
 plt.legend()
 plt.grid()
 plt.tight_layout()
