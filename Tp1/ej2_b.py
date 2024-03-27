@@ -31,29 +31,26 @@ x2_interpolados = polinomio_interpolado(x1_interpolados)
 
 
 
-# WARNING SECCIÓN INTERSECCIÓN 
-
-
-def newton_raphson_doble_variable(f1, f2, x0, y0, tol=1e-6, max_iter=1000): 
-         # p(n-1)=p(n)-(jacobiano*-1)(p(n)) * f(p(n)) 
-         # f1, f2: funciones f1(x, y), f2(x, y) 
-  
+def newton_raphson_doble_variable(f1, f2, x0, y0, tolerancia=1e-6, max_iter=1000):
          # Calculo el jacobiano 
          def jacobiano(x, y): 
-             j11 = (f1(x + tol, y) - f1(x, y)) / tol 
-             j12 = (f1(x, y + tol) - f1(x, y)) / tol 
-             j21 = (f2(x + tol, y) - f2(x, y)) / tol 
-             j22 = (f2(x, y + tol) - f2(x, y)) / tol 
-             return np.array([[j11, j12], [j21, j22]]) 
+            #  j11 = (f1(x + tolerancia, y) - f1(x, y)) / tolerancia 
+            #  j12 = (f1(x, y + tolerancia) - f1(x, y)) / tolerancia 
+            #  j21 = (f2(x + tolerancia, y) - f2(x, y)) / tolerancia 
+            #  j22 = (f2(x, y + tolerancia) - f2(x, y)) / tolerancia 
+             return np.array(
+                    [[(f1(x + tolerancia, y) - f1(x, y)) / tolerancia, (f1(x, y + tolerancia) - f1(x, y)) / tolerancia ], 
+                     [(f2(x + tolerancia, y) - f2(x, y)) / tolerancia, (f2(x, y + tolerancia) - f2(x, y)) / tolerancia ]
+            ]) 
   
-         for _ in range(max_iter): 
+         for i in range(max_iter): 
              j_inv = np.linalg.inv(jacobiano(x0, y0)) 
              f = np.array([f1(x0, y0), f2(x0, y0)]) 
              p = np.array([x0, y0]) - j_inv @ f 
-             if np.linalg.norm(p - np.array([x0, y0])) < tol: 
+             if np.linalg.norm(p - np.array([x0, y0])) < tolerancia: 
                  return x0 
              x0, y0 = p 
-         return None 
+         return None
   
 def f1(x, y): 
          return interpolated_trajectory_v1_x1(x) - interpolated_trajectory_v2_x1(y) 
@@ -67,23 +64,22 @@ t_intersect = newton_raphson_doble_variable(f1, f2, 0, 0)
 m1_x1_intersect = interpolated_trajectory_v1_x1(t_intersect) 
 m1_x2_intersect = interpolated_trajectory_v1_x2(t_intersect)
 
-print(f"The intersection point is at ({m1_x1_intersect}, {m1_x2_intersect})")
+print(f"El punto de la intersección es en: ({m1_x1_intersect}, {m1_x2_intersect})")
 
 
-# TERMINA SECCIÓN INTERSECCIÓN
 
 
 # Graficar trayectorias de ambos vehículos
 plt.figure(figsize=(10, 6))
 plt.plot(ground_truth_df["x1"], ground_truth_df["x2"], label='Ground Truth', color='b')
-plt.plot(interpolated_trajectory_v1_x1(points_to_graph), interpolated_trajectory_v1_x2(points_to_graph), label='Interpolation v1' ,linestyle='-.', color='r')
-plt.plot(interpolated_trajectory_v2_x1(points_to_graph_v2), interpolated_trajectory_v2_x2(points_to_graph_v2), label='Interpolation v2' ,linestyle='-.', color='g')
+plt.plot(interpolated_trajectory_v1_x1(points_to_graph), interpolated_trajectory_v1_x2(points_to_graph), label='Interpolación v1' ,linestyle='-.', color='r')
+plt.plot(interpolated_trajectory_v2_x1(points_to_graph_v2), interpolated_trajectory_v2_x2(points_to_graph_v2), label='Interpolación v2' ,linestyle='-.', color='g')
 plt.scatter(m1_x1_intersect, m1_x2_intersect, color='r', label="Intersección")
 
 # Configuración de la gráfica
 plt.xlabel("Coordenada x1")
 plt.ylabel("Coordenada x2")
-plt.title("Trayectorias de Vehículos")
+plt.title("Trayectorias de Vehículos con Cubic Spline")
 plt.legend()
 plt.grid()
 plt.show()
