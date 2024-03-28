@@ -8,11 +8,11 @@ mediciones_df = pd.read_csv("mnyo_mediciones.csv", sep=" ", header=None, names=[
 mediciones_2_df = pd.read_csv("mnyo_mediciones2.csv", sep=" ", header=None, names=["x1", "x2"])
 ground_truth_df = pd.read_csv("mnyo_ground_truth.csv", sep=" ", header=None, names=["x1", "x2"])
 
-#generate 1000 points to graph
+# Generar 1000 puntos para graficar
 points_to_graph = np.linspace(mediciones_df.index.min(), mediciones_df.index.max(), 1000)
 points_to_graph_v2 = np.linspace(mediciones_2_df.index.min(), mediciones_2_df.index.max(), 1000)
 
-#interpolate the trajectory based on index
+# Interpolación de la trayectoria basada en el index
 interpolated_trajectory_v1_x1 = CubicSpline(mediciones_df.index, mediciones_df["x1"])
 interpolated_trajectory_v1_x2 = CubicSpline(mediciones_df.index, mediciones_df["x2"])
 
@@ -32,12 +32,8 @@ x2_interpolados = polinomio_interpolado(x1_interpolados)
 
 
 def newton_raphson_doble_variable(f1, f2, x0, y0, tolerancia=1e-6, max_iter=1000):
-         # Calculo el jacobiano 
+         # Calculo del jacobiano 
          def jacobiano(x, y): 
-            #  j11 = (f1(x + tolerancia, y) - f1(x, y)) / tolerancia 
-            #  j12 = (f1(x, y + tolerancia) - f1(x, y)) / tolerancia 
-            #  j21 = (f2(x + tolerancia, y) - f2(x, y)) / tolerancia 
-            #  j22 = (f2(x, y + tolerancia) - f2(x, y)) / tolerancia 
              return np.array(
                     [[(f1(x + tolerancia, y) - f1(x, y)) / tolerancia, (f1(x, y + tolerancia) - f1(x, y)) / tolerancia ], 
                      [(f2(x + tolerancia, y) - f2(x, y)) / tolerancia, (f2(x, y + tolerancia) - f2(x, y)) / tolerancia ]
@@ -60,7 +56,7 @@ def f2(x, y):
   
 t_intersect = newton_raphson_doble_variable(f1, f2, 0, 0)
 
-# Calculate the intersection point 
+# Calcular el punto de la intersección 
 m1_x1_intersect = interpolated_trajectory_v1_x1(t_intersect) 
 m1_x2_intersect = interpolated_trajectory_v1_x2(t_intersect)
 

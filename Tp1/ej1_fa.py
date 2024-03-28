@@ -12,7 +12,7 @@ quantity_of_interpolation_points = 10
 
 x_values_for_interpolation = np.linspace(-4, 4, quantity_of_interpolation_points)
 
-# puntos a graficar de las funciones
+# Puntos a graficar de las funciones
 points_to_graph = np.linspace(-4, 4, 1000)
 
 # Puntos de colocación Chebyshev // orden del polinomio
@@ -41,7 +41,7 @@ plt.scatter(x_values_for_interpolation, fa_values, label="Puntos de interpolacio
 plt.plot(points_to_graph, fa(points_to_graph), label='Datos originales', color='r')
 plt.plot(points_to_graph, fa_interp_lagrange(points_to_graph), label='Interpolación Lagrange', color='violet',  linestyle='-.')
 
-#plot cubic spline equiespaciados
+# Plot cubic spline equiespaciados
 plt.plot(points_to_graph, fa_interp_cubic(points_to_graph), label='Interpolación Cubic Spline',  linestyle='--')
 
 plt.title('Interpolación de $f_a(x)$ con Lagrange y Cubic Spline (Equiespaciados)')
@@ -57,7 +57,7 @@ plt.scatter(x_values_for_interpolation_chebyshev, fCheb_values, label="Puntos de
 plt.plot(points_to_graph, fa(points_to_graph), label='Datos originales', color='r')
 
 
-#plot cubic spline no equiespaciados
+# Plot cubic spline no equiespaciados
 plt.plot(points_to_graph, fCheb_interp_cubic(points_to_graph), label='Interpolación Cubic Spline',  linestyle='--')
 
 plt.title('Interpolación de $f_a(x)$ con Cubic Spline (Chebyshev)')
@@ -70,7 +70,7 @@ plt.tight_layout()
 plt.show()
 
 
-#grafico de error maximo en base a cantidad de nodos con chebyshev y CubicSpline
+# Gráfico de error máximo en base a cantidad de nodos con Chebyshev y CubicSpline
 max_error = []
 for i in range(2, 100):
     cheb_nodes = np.polynomial.chebyshev.chebpts1(i)
@@ -80,7 +80,7 @@ for i in range(2, 100):
     max_error.append(np.max(np.abs(fa(points_to_graph) - fCheb_interp_lagrange(points_to_graph))))
 
 plt.plot(range(2, 100), max_error, label='Error maximo', color='r')
-plt.title('Error maximo de interpolación de $f_a(x)$ con CubicSpline en base a la cantidad de nodos (Chebyshev)')
+plt.title('Error maximo de interpolación de $f_a(x)$ con Cubic Spline en base a la cantidad de nodos (Chebyshev)')
 plt.xlabel('Cantidad de nodos')
 plt.ylabel('Error maximo')
 plt.legend()

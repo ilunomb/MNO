@@ -26,7 +26,7 @@ x_values_for_interpolation_chebyshev, y_values_for_interpolation_chebyshev_b2 = 
 # Generar puntos equiespaciados en el intervalo [-1, 1]
 x_values_for_interpolation, y_values_for_interpolation = np.meshgrid(np.linspace(-1, 1, quantity_of_interpolation_points), np.linspace(-1, 1, quantity_of_interpolation_points_chebyshev))
 
-# puntos a graficar de las funciones
+# Puntos a graficar de las funciones
 x_linespace = np.linspace(-1, 1, 1000)
 y_linespace = np.linspace(-1, 1, 1000)
 x_points_to_graph, y_points_to_graph = np.meshgrid(x_linespace, y_linespace)
@@ -67,7 +67,7 @@ ax.set_title('Interpolación de $f_b(x, y)$ con Bicubic Interpolation (Equiespac
 plt.tight_layout()
 plt.show()
 
-#grafico de error maximo en base a la cantidad de puntos de interpolacion (Equiespaciados)
+# Gráfico de error máximo en base a la cantidad de puntos de interpolación (Equiespaciados)
 max_error = []
 for i in range(4, 50):
     x_values_for_interpolation, y_values_for_interpolation = np.meshgrid(np.linspace(-1, 1, i), np.linspace(-1, 1, i))
@@ -84,6 +84,26 @@ plt.grid()
 plt.legend()
 
 
+
+plt.tight_layout()
+plt.show()
+
+# Gráfico de error máximo en base a la cantidad de puntos de interpolación (Chebyshev)
+max_error = []
+
+for i in range(4, 50):
+    x_values_for_interpolation_chebyshev, y_values_for_interpolation_chebyshev_b2 = np.meshgrid(np.linspace(-1, 1, i), np.linspace(-1, 1, i))
+    fb_values = fb(x_values_for_interpolation_chebyshev, y_values_for_interpolation_chebyshev_b2)
+    fb_interp = griddata((x_values_for_interpolation_chebyshev.flatten(), y_values_for_interpolation_chebyshev_b2.flatten()), fb_values.flatten(), (x_points_to_graph, y_points_to_graph), method='cubic')
+    max_error.append(np.max(np.abs(fb(x_points_to_graph, y_points_to_graph) - fb_interp)))
+
+plt.figure(figsize=(12, 6))
+plt.plot(range(4, 50), max_error, label='Error maximo', color='r')
+plt.title('Error máximo en función de la cantidad de puntos de interpolación (Chebyshev)')
+plt.xlabel('Cantidad de puntos de interpolación')
+plt.ylabel('Error máximo')
+plt.grid()
+plt.legend()
 
 plt.tight_layout()
 plt.show()
