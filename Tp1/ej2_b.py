@@ -8,9 +8,6 @@ mediciones_df = pd.read_csv("mnyo_mediciones.csv", sep=" ", header=None, names=[
 mediciones_2_df = pd.read_csv("mnyo_mediciones2.csv", sep=" ", header=None, names=["x1", "x2"])
 ground_truth_df = pd.read_csv("mnyo_ground_truth.csv", sep=" ", header=None, names=["x1", "x2"])
 
-# Generar 1000 puntos para graficar
-points_to_graph = np.linspace(mediciones_df.index.min(), mediciones_df.index.max(), 1000)
-points_to_graph_v2 = np.linspace(mediciones_2_df.index.min(), mediciones_2_df.index.max(), 1000)
 
 # Interpolación de la trayectoria basada en el index
 interpolated_trajectory_v1_x1 = CubicSpline(mediciones_df.index, mediciones_df["x1"])
@@ -20,15 +17,20 @@ interpolated_trajectory_v2_x1 = CubicSpline(mediciones_2_df.index, mediciones_2_
 interpolated_trajectory_v2_x2 = CubicSpline(mediciones_2_df.index, mediciones_2_df["x2"])
 
 
+# Generar 1000 puntos para graficar
+points_to_graph = np.linspace(mediciones_df.index.min(), mediciones_df.index.max(), 1000)
+points_to_graph_v2 = np.linspace(mediciones_2_df.index.min(), mediciones_2_df.index.max(), 1000)
+
+
 # Extraer coordenadas x1 y x2 de cada vehículo
 x1_vehiculo1, x2_vehiculo1 = mediciones_df["x1"], mediciones_df["x2"]
 x1_vehiculo2, x2_vehiculo2 = mediciones_2_df["x1"], mediciones_2_df["x2"]
+
 
 # Interpolación de la trayectoria del segundo vehículo con Lagrange
 polinomio_interpolado = CubicSpline(x1_vehiculo2, x2_vehiculo2)
 x1_interpolados = np.linspace(min(x1_vehiculo2), max(x1_vehiculo2), len(x1_vehiculo1))
 x2_interpolados = polinomio_interpolado(x1_interpolados)
-
 
 
 def newton_raphson_doble_variable(f1, f2, x0, y0, tolerancia=1e-6, max_iter=1000):
@@ -56,13 +58,12 @@ def f2(x, y):
   
 t_intersect = newton_raphson_doble_variable(f1, f2, 0, 0)
 
+
 # Calcular el punto de la intersección 
 m1_x1_intersect = interpolated_trajectory_v1_x1(t_intersect) 
 m1_x2_intersect = interpolated_trajectory_v1_x2(t_intersect)
 
 print(f"El punto de la intersección es en: ({m1_x1_intersect}, {m1_x2_intersect})")
-
-
 
 
 # Graficar trayectorias de ambos vehículos
@@ -71,6 +72,7 @@ plt.plot(ground_truth_df["x1"], ground_truth_df["x2"], label='Ground Truth', col
 plt.plot(interpolated_trajectory_v1_x1(points_to_graph), interpolated_trajectory_v1_x2(points_to_graph), label='Interpolación v1' ,linestyle='-.', color='r')
 plt.plot(interpolated_trajectory_v2_x1(points_to_graph_v2), interpolated_trajectory_v2_x2(points_to_graph_v2), label='Interpolación v2' ,linestyle='-.', color='g')
 plt.scatter(m1_x1_intersect, m1_x2_intersect, color='r', label="Intersección")
+
 
 # Configuración de la gráfica
 plt.xlabel("Coordenada x1")

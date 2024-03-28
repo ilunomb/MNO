@@ -14,8 +14,10 @@ def fb(x1, x2):
 # Puntos de colocación equiespaciados // orden del polinomio
 quantity_of_interpolation_points = 15
 
+
 # Puntos de colocación Chebyshev // orden del polinomio
 quantity_of_interpolation_points_chebyshev = 15
+
 
 # Generar nodos de Chebyshev en el intervalo [-1, 1]
 cheb_nodes_x = np.polynomial.chebyshev.chebpts1(quantity_of_interpolation_points_chebyshev)
@@ -23,21 +25,26 @@ cheb_nodes_y = np.polynomial.chebyshev.chebpts1(quantity_of_interpolation_points
 
 x_values_for_interpolation_chebyshev, y_values_for_interpolation_chebyshev_b2 = np.meshgrid(cheb_nodes_x, cheb_nodes_y)  # Escalamos los nodos de Chebyshev al intervalo [-1, 1]
 
+
 # Generar puntos equiespaciados en el intervalo [-1, 1]
 x_values_for_interpolation, y_values_for_interpolation = np.meshgrid(np.linspace(-1, 1, quantity_of_interpolation_points), np.linspace(-1, 1, quantity_of_interpolation_points_chebyshev))
+
 
 # Puntos a graficar de las funciones
 x_linespace = np.linspace(-1, 1, 1000)
 y_linespace = np.linspace(-1, 1, 1000)
 x_points_to_graph, y_points_to_graph = np.meshgrid(x_linespace, y_linespace)
 
+
 # Evaluación de las funciones en los puntos de colocación
 fb_values = fb(x_values_for_interpolation, y_values_for_interpolation)
 fb_Cheb_values = fb(x_values_for_interpolation_chebyshev, y_values_for_interpolation_chebyshev_b2)
 
+
 # Interpolación utilizando interp2d para fb(x)
 fb_interp = griddata((x_values_for_interpolation.flatten(), y_values_for_interpolation.flatten()), fb_values.flatten(), (x_points_to_graph, y_points_to_graph), method='cubic')
 fb_Cheb_interp = griddata((x_values_for_interpolation_chebyshev.flatten(), y_values_for_interpolation_chebyshev_b2.flatten()), fb_Cheb_values.flatten(), (x_points_to_graph, y_points_to_graph), method='cubic')
+
 
 # Gráficos de las funciones originales y las interpoladas
 fig = plt.figure(figsize=(12, 6))
@@ -67,6 +74,7 @@ ax.set_title('Interpolación de $f_b(x, y)$ con Bicubic Interpolation (Equiespac
 plt.tight_layout()
 plt.show()
 
+
 # Gráfico de error máximo en base a la cantidad de puntos de interpolación (Equiespaciados)
 max_error = []
 for i in range(4, 50):
@@ -87,6 +95,7 @@ plt.legend()
 
 plt.tight_layout()
 plt.show()
+
 
 # Gráfico de error máximo en base a la cantidad de puntos de interpolación (Chebyshev)
 max_error = []

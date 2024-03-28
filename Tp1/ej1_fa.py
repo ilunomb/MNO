@@ -7,24 +7,29 @@ import matplotlib.pyplot as plt
 def fa(x):
     return 0.3 ** (np.abs(x)) * np.sin(4*x) - np.tanh(2*x) + 2
 
+
 # Puntos de colocación equiespaciados // orden del polinomio
 quantity_of_interpolation_points = 10
-
 x_values_for_interpolation = np.linspace(-4, 4, quantity_of_interpolation_points)
+
 
 # Puntos a graficar de las funciones
 points_to_graph = np.linspace(-4, 4, 1000)
 
+
 # Puntos de colocación Chebyshev // orden del polinomio
 quantity_of_interpolation_points_chebyshev = 20
+
 
 # Generar nodos de Chebyshev en el intervalo [-4, 4]
 cheb_nodes = np.polynomial.chebyshev.chebpts1(quantity_of_interpolation_points_chebyshev)
 x_values_for_interpolation_chebyshev = 4 * cheb_nodes  # Escalamos los nodos de Chebyshev al intervalo [-4, 4]
 
+
 # Evaluación de las funciones en los puntos de colocación
 fa_values = fa(x_values_for_interpolation)
 fCheb_values = fa(x_values_for_interpolation_chebyshev)
+
 
 # Interpolación utilizando Lagrange para fa(x)
 fa_interp_lagrange = lagrange(x_values_for_interpolation, fa_values)
@@ -33,6 +38,7 @@ fCheb_interp_lagrange = lagrange(x_values_for_interpolation_chebyshev, fCheb_val
 fa_interp_cubic = CubicSpline(x_values_for_interpolation, fa_values)
 fCheb_interp_cubic = CubicSpline(x_values_for_interpolation_chebyshev, fCheb_values)
 
+
 # Gráficos de las funciones originales y las interpoladas
 plt.figure(figsize=(12, 5))
 
@@ -40,6 +46,7 @@ plt.figure(figsize=(12, 5))
 plt.scatter(x_values_for_interpolation, fa_values, label="Puntos de interpolacion equiespaciados", color='g')
 plt.plot(points_to_graph, fa(points_to_graph), label='Datos originales', color='r')
 plt.plot(points_to_graph, fa_interp_lagrange(points_to_graph), label='Interpolación Lagrange', color='violet',  linestyle='-.')
+
 
 # Plot cubic spline equiespaciados
 plt.plot(points_to_graph, fa_interp_cubic(points_to_graph), label='Interpolación Cubic Spline',  linestyle='--')

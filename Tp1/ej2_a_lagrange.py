@@ -5,7 +5,6 @@ from scipy.interpolate import lagrange
 
 # Lectura del CSV con pandas
 ground_truth_df = pd.read_csv("mnyo_ground_truth.csv", sep=" ", header=None, names=["x1", "x2"])
-
 mediciones_df = pd.read_csv("mnyo_mediciones.csv", sep=" ", header=None, names=["x1", "x2"])
 
 
@@ -27,15 +26,17 @@ print(f"Error mean: {error_mean}")
 print(f"Error max: {error_max}")
 
 
-
 # Plot init
 plt.figure(figsize=(12, 5))
+
 
 # Plot el ground truth
 plt.plot(ground_truth_df["x1"], ground_truth_df["x2"], label='Trayectoria real', color='b')
 
+
 # Plot la trayectoria interpolada
 plt.plot(interpolated_trajectory_x1(points_to_graph), interpolated_trajectory_x2(points_to_graph), label='Interpolación' ,linestyle='-.', color='r')
+
 
 # Plot los puntos
 plt.scatter(mediciones_df["x1"], mediciones_df["x2"], label="Mediciones", color='g')
